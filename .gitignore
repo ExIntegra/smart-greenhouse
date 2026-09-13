@@ -1,0 +1,139 @@
+# =========================
+# Secrets / environment
+# =========================
+
+.env
+.env.*
+!.env.example
+
+*.secret
+secrets.*
+!secrets.example.*
+
+
+# =========================
+# TLS / certificates / keys
+# =========================
+
+*.pem
+*.key
+*.crt
+*.cer
+*.p12
+*.pfx
+*.jks
+
+privkey*
+fullchain*
+cert.pem
+chain.pem
+
+
+# =========================
+# Certbot / Let's Encrypt
+# =========================
+
+certbot/conf/*
+!certbot/conf/.gitkeep
+
+certbot/www/*
+!certbot/www/.gitkeep
+
+
+# =========================
+# Go
+# =========================
+
+greenhouse-api/greenhouse-api
+
+*.exe
+*.out
+*.test
+
+bin/
+dist/
+build/
+
+coverage.out
+
+
+# =========================
+# Python leftovers
+# =========================
+
+venv/
+.venv/
+
+__pycache__/
+*.pyc
+*.pyo
+
+
+# =========================
+# Docker / runtime data
+# =========================
+
+docker-data/
+data/
+
+*.pid
+*.sock
+
+
+# =========================
+# Prometheus runtime data
+# =========================
+
+prometheus-data/
+monitoring/prometheus/data/
+
+
+# =========================
+# Grafana runtime data
+# =========================
+
+grafana-data/
+monitoring/grafana/data/
+
+
+# =========================
+# Alertmanager runtime data
+# =========================
+
+alertmanager-data/
+monitoring/alertmanager/data/
+
+
+# =========================
+# Logs
+# =========================
+
+*.log
+logs/
+
+
+# =========================
+# Arduino / ESP32 secrets
+# =========================
+
+secrets.h
+credentials.h
+
+*.bin
+*.elf
+*.map
+
+
+# =========================
+# IDE / OS
+# =========================
+
+.vscode/
+.idea/
+
+.DS_Store
+Thumbs.db
+
+*.swp
+*.swo
+*~
