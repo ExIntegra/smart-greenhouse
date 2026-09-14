@@ -22,6 +22,8 @@ services:
     ports:
       - '9090:9090'
     restart: unless-stopped
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
     volumes:
       - './monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
       - 'prometheus-data:/prometheus'
@@ -56,6 +58,8 @@ services:
     container_name: nginx
     image: nginx:stable-alpine3.24-perl
     restart: unless-stopped
+    depends_on:
+      - grafana
     ports:
       - '443:443'
       - '80:80'
@@ -63,6 +67,7 @@ services:
       - './web-server/nginx.conf:/etc/nginx/nginx.conf:ro'
       - "./certbot/www:/var/www/certbot:ro"
       - "./certbot/conf:/etc/letsencrypt:ro"
+      - './web-server/html:/usr/share/nginx/html:ro'
 
   certbot:
     image: certbot/certbot
