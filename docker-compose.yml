@@ -26,6 +26,7 @@ services:
       - 'host.docker.internal:host-gateway'
     volumes:
       - './monitoring/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro'
+      - './monitoring/prometheus/rules.yml:/etc/prometheus/rules.yml:ro'
       - 'prometheus-data:/prometheus'
 
   grafana:
@@ -39,6 +40,7 @@ services:
     environment:
       GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s/grafana/"
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      GF_SECURITY_ALLOW_EMBEDDING: "true"
 
   cadvisor:
     image: ghcr.io/google/cadvisor
@@ -90,4 +92,6 @@ services:
       - '9093:9093'
     volumes:
       - './monitoring/alertmanager/alertmanager.yml:/etc/alertmanager/alertmanager.yml'
+      - './monitoring/alertmanager/templates:/etc/alertmanager/templates:ro'
       - 'alertmanager-data:/data'
+      - './secrets/telegram_token:/run/secrets/telegram_token:ro'

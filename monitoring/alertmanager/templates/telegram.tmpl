@@ -1,0 +1,11 @@
+{{ define "telegram" }}
+{{ range .Alerts }}
+
+🚨 Алерт: {{ .Labels.alertname }}
+🗺 Место: {{ .Labels.device_id }}
+🕹 Устройство {{ .Labels.sensor_id }}
+📍 Инстанс: {{ .Labels.instance }}
+💡 Описание: {{ .Annotations.description }}
+
+{{ end }}
+{{ end }}

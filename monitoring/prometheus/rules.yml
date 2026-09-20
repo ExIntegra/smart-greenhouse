@@ -1,0 +1,12 @@
+groups:
+  - name: temperature
+    interval: 10s
+    rules:
+      - alert: HighTemperature
+        expr: greenhouse_temperature_celsius{device_id="greenhouse-esp32-01", sensor_id="ds18b20-01"} > 25
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Высокая температура датчика {{ $labels.instance }}"
+          description: "Температура выше нормы. Текущее  {{ printf \"%.1f\" $value }}C"
