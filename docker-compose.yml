@@ -33,14 +33,21 @@ services:
     image: grafana/grafana:13.0
     container_name: grafana
     ports:
-      - '127.0.0.1:3000:3000'
+      - '3000:3000'
     restart: unless-stopped
     volumes:
       - 'grafana-data:/var/lib/grafana'
     environment:
-      GF_SERVER_ROOT_URL: "%(protocol)s://%(domain)s/grafana/"
+      #задаем 
+      GF_SERVER_ROOT_URL: "https://growpanel.ru/grafana/"
+      #обслуживаем запросы с префиксами */grafana/
       GF_SERVER_SERVE_FROM_SUB_PATH: "true"
+      #встраиваем grafana в веб-страницы через iframe
       GF_SECURITY_ALLOW_EMBEDDING: "true"
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: "Viewer"
+      # форма входа
+      GF_AUTH_DISABLE_LOGIN_FORM: "false"
 
   cadvisor:
     image: ghcr.io/google/cadvisor
