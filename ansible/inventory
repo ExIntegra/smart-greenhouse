@@ -1,0 +1,5 @@
+[vps]
+target1 ansible_host=192.168.0.88 ansible_port=2345
+
+[api-server]
+target2 ansible_host= ansibple_port=2345

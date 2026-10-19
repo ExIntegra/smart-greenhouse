@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Умная теплица</title>
 
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/style.css?=2">
 </head>
 
 <body>
@@ -17,191 +18,91 @@
                 <h1>Умная теплица</h1>
                 <p>Панель управления и мониторинга</p>
             </div>
-
-            <a class="grafana-button" href="/grafana/d/adv6z8s/metriki-kvartiry?orgId=1&from=now-6h&to=now&timezone=browser">
-            	Мониторинг температуры
-	    </a>
         </div>
     </header>
 
 
     <main class="container">
 
-        <!-- Теплица / камера -->
+        <!-- ТЕПЛИЦА -->
+
         <section class="panel">
+
             <div class="panel-header">
                 <div>
                     <h2>Теплица</h2>
-                    <p>Видеонаблюдение</p>
+                    <p>Пример Видеонаблюдение</p>
                 </div>
-
-                <span class="status-badge">
-                    ● Онлайн
-                </span>
             </div>
 
-            <div class="greenhouse-image">
-                <img src="/greenhouse.jpg" alt="Умная теплица">
 
-                <div class="camera-overlay">
-                    <span class="camera-icon">●</span>
-                    Тут будет видеокамера
+            <div class="greenhouse-media">
+
+                <!-- ВИДЕОНАБЛЮДЕНИЕ -->
+
+                <div class="greenhouse-image">
+
+                    <img
+                        src="/greenhouse.jpg"
+                        alt="Видеонаблюдение"
+                    >
+
+                    <div class="camera-overlay">
+                        <span class="camera-icon">●</span>
+                        Online
+                    </div>
+
+                </div>
+
+
+                <!-- КАКТУС -->
+
+                <div class="cactus-image">
+
+                    <img
+                        src="/cactus.jpg"
+                        alt="Кактус"
+                    >
+
                 </div>
 
             </div>
+
         </section>
 
-        <section class="panel">
+	<section class="panel">
 		<div class="panel-header">
 			<div>
-				<h2>Мониторинг</h2>
-				<p>Данные Grafana</p>
+				<h2> Пример уведомления из Telegram</h2>
 			</div>
 		</div>
 
-		<iframe
-			src="/grafana/d/adv6z8s/metriki?kiosk"
-			class="grafana-frame">
-		</iframe>
-        </section>
-    
+		<img class="telegram-image"
+		     src="/notification-telegram.jpg"
+		     alt="Уведомление из Телеграм">
+	</section>
+
+	
+        <!-- МОНИТОРИНГ -->
+
         <section class="panel">
 
             <div class="panel-header">
                 <div>
-                    <h2>Система полива</h2>
-                    <p>Управление водяным насосом</p>
-                </div>
-
-                <div class="pump-status" id="pumpStatus">
-                    <span class="status-dot"></span>
-                    Насос выключен
+                    <h2>Мониторинг</h2>
                 </div>
             </div>
 
-
-            <div class="irrigation-system">
-
-                <!-- Источник воды -->
-                <div class="device water">
-                    <div class="device-icon">💧</div>
-                    <strong>Вода</strong>
-                </div>
-
-
-                <div class="pipe"></div>
-
-
-                <!-- Насос -->
-                <div class="device pump" id="pump">
-                    <div class="pump-icon">
-                        P
-                    </div>
-
-                    <strong>Насос</strong>
-
-                    <span id="pumpState">
-                        OFF
-                    </span>
-                </div>
-
-
-                <div class="pipe" id="waterPipe"></div>
-
-
-                <!-- Теплица -->
-                <div class="device greenhouse">
-                    <div class="device-icon">🌱</div>
-                    <strong>Полив</strong>
-                </div>
-
-            </div>
-
-
-            <div class="pump-control">
-
-                <div>
-                    <h3>Насос полива</h3>
-                    <p id="pumpDescription">
-                        Подача воды отключена
-                    </p>
-                </div>
-
-
-                <label class="switch">
-
-                    <input
-                        type="checkbox"
-                        id="pumpSwitch"
-                    >
-
-                    <span class="slider"></span>
-
-                </label>
-
-            </div>
+            <iframe
+                src="/grafana/d/adv6z8s/metriki?kiosk"
+                class="grafana-frame">
+            </iframe>
 
         </section>
-
     </main>
-
 
     <footer>
         growpanel.ru
     </footer>
-
-
-    <script>
-
-        const pumpSwitch = document.getElementById("pumpSwitch");
-
-        const pumpStatus = document.getElementById("pumpStatus");
-        const pumpState = document.getElementById("pumpState");
-        const pumpDescription = document.getElementById("pumpDescription");
-        const pump = document.getElementById("pump");
-        const waterPipe = document.getElementById("waterPipe");
-
-
-        pumpSwitch.addEventListener("change", function () {
-
-            if (pumpSwitch.checked) {
-
-                pumpStatus.classList.add("active");
-
-                pumpStatus.innerHTML = `
-                    <span class="status-dot"></span>
-                    Насос включен
-                `;
-
-                pumpState.textContent = "ON";
-
-                pumpDescription.textContent =
-                    "Вода подаётся в систему полива";
-
-                pump.classList.add("active");
-                waterPipe.classList.add("active");
-
-            } else {
-
-                pumpStatus.classList.remove("active");
-
-                pumpStatus.innerHTML = `
-                    <span class="status-dot"></span>
-                    Насос выключен
-                `;
-
-                pumpState.textContent = "OFF";
-
-                pumpDescription.textContent =
-                    "Подача воды отключена";
-
-                pump.classList.remove("active");
-                waterPipe.classList.remove("active");
-            }
-
-        });
-
-    </script>
-
 </body>
 </html>

@@ -5,84 +5,40 @@
 
 body {
     margin: 0;
-
     min-height: 100vh;
-
     font-family:
         Inter,
         Arial,
         sans-serif;
-
     background: #f3f6f4;
     color: #17221b;
 }
-
 
 /* HEADER */
 
 .header {
     background: #ffffff;
-
     border-bottom: 1px solid #e3e8e5;
 }
 
-
 .header-content {
     width: min(1100px, 92%);
-
     margin: 0 auto;
-
     min-height: 100px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     gap: 30px;
 }
 
-
 .header h1 {
     margin: 0;
-
     font-size: 30px;
 }
 
-
 .header p {
     margin: 5px 0 0;
-
     color: #758079;
-}
-
-
-.grafana-button {
-    display: inline-flex;
-
-    align-items: center;
-    justify-content: center;
-
-    min-height: 46px;
-
-    padding: 0 22px;
-
-    border-radius: 10px;
-
-    background: #176b43;
-
-    color: white;
-
-    font-weight: bold;
-    text-decoration: none;
-
-    transition: 0.2s;
-}
-
-
-.grafana-button:hover {
-    background: #0e5232;
-
-    transform: translateY(-1px);
 }
 
 
@@ -90,420 +46,319 @@ body {
 
 .container {
     width: min(1100px, 92%);
-
     margin: 40px auto;
-
     display: flex;
     flex-direction: column;
-
     gap: 30px;
 }
 
 
-/* CARD */
+/* PANEL */
 
 .panel {
     padding: 28px;
-
-    background: white;
-
+    background: #ffffff;
     border: 1px solid #e2e8e4;
-
     border-radius: 18px;
-
     box-shadow:
         0 8px 30px
         rgba(0, 0, 0, 0.05);
 }
 
-
 .panel-header {
     display: flex;
-
     justify-content: space-between;
     align-items: center;
-
     gap: 20px;
-
     margin-bottom: 22px;
 }
 
-
 .panel-header h2 {
     margin: 0;
-
     font-size: 22px;
 }
 
-
 .panel-header p {
     margin: 6px 0 0;
-
     color: #7b847f;
 }
 
-
-/* STATUS */
-
-.status-badge {
-    padding: 7px 12px;
-
-    border-radius: 50px;
-
-    background: #e8f7ef;
-
-    color: #147345;
-
-    font-size: 14px;
-    font-weight: bold;
+.greenhouse-media {
+    width: 100%;
+    display: grid;
+    grid-template-columns:
+        minmax(0, 2fr)
+        minmax(0, 1fr);
+    gap: 20px;
 }
-
-
-/* GREENHOUSE IMAGE */
 
 .greenhouse-image {
     position: relative;
-
     width: 100%;
-
-    min-height: 350px;
-
+    height: 400px;
+    min-width: 0;
     overflow: hidden;
-
     border-radius: 14px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #dce6df,
-            #eef4f0
-        );
+    background: #eef4f0;
 }
 
-
-.greenhouse-image img {
+.greenhouse-image > img {
     display: block;
-
     width: 100%;
-    height: 500px;
-
+    height: 100%;
     object-fit: cover;
 }
 
+.cactus-image {
+    width: 100%;
+    height: 400px;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #eef4f0;
+}
+
+.cactus-image > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
 
 .camera-overlay {
     position: absolute;
-
     top: 20px;
     left: 20px;
-
     display: flex;
     align-items: center;
-
     gap: 9px;
-
     padding: 10px 14px;
-
     border-radius: 8px;
-
     background: rgba(15, 22, 18, 0.75);
-
-    color: white;
-
+    color: #ffffff;
     font-size: 14px;
-
     backdrop-filter: blur(6px);
 }
 
-
 .camera-icon {
     color: #ff5252;
-
     font-size: 12px;
 }
-
 
 /* PUMP STATUS */
 
 .pump-status {
     display: flex;
     align-items: center;
-
     gap: 8px;
-
     padding: 8px 13px;
-
     border-radius: 50px;
-
     background: #f1f3f2;
-
     color: #66706a;
-
     font-size: 14px;
     font-weight: bold;
 }
 
-
 .status-dot {
     width: 9px;
     height: 9px;
-
     border-radius: 50%;
-
     background: #939b96;
 }
 
-
 .pump-status.active {
     background: #e6f7ed;
-
     color: #147344;
 }
 
-
 .pump-status.active .status-dot {
     background: #1eb768;
-
     box-shadow:
         0 0 0 4px
         rgba(30, 183, 104, 0.14);
 }
 
-
-/* IRRIGATION SCHEME */
+/* IRRIGATION */
 
 .irrigation-system {
     min-height: 210px;
-
     padding: 35px;
-
     display: flex;
-    align-items: center;
     justify-content: center;
-
     background: #f8faf9;
-
     border: 1px solid #e6ebe8;
-
     border-radius: 14px;
 }
-
 
 .device {
     width: 130px;
     height: 130px;
-
     flex-shrink: 0;
-
     display: flex;
     flex-direction: column;
-
     align-items: center;
     justify-content: center;
-
     gap: 8px;
-
-    background: white;
-
+    background: #ffffff;
     border: 2px solid #dbe2de;
-
     border-radius: 15px;
-
     transition: 0.3s;
 }
-
 
 .device-icon {
     font-size: 35px;
 }
 
-
 .pipe {
     width: 100px;
     height: 8px;
-
     background: #c7ceca;
-
     transition: 0.3s;
 }
 
-
 .pipe.active {
     background: #2296f3;
-
     box-shadow:
         0 0 10px
         rgba(34, 150, 243, 0.45);
 }
-
 
 /* PUMP */
 
 .pump-icon {
     width: 48px;
     height: 48px;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     border-radius: 50%;
-
     background: #e5e8e6;
-
     color: #5e6762;
-
     font-weight: bold;
-
     transition: 0.3s;
 }
 
-
 .pump span {
     font-size: 12px;
-
     color: #919995;
-
     font-weight: bold;
 }
 
-
 .pump.active {
     border-color: #1eaf66;
-
     box-shadow:
         0 0 0 4px
         rgba(30, 175, 102, 0.08);
 }
 
-
 .pump.active .pump-icon {
     background: #1eaf66;
-
-    color: white;
-
+    color: #ffffff;
     box-shadow:
         0 0 15px
         rgba(30, 175, 102, 0.35);
 }
 
-
 .pump.active span {
     color: #16854d;
 }
 
-
-/* CONTROL */
-
 .pump-control {
     margin-top: 22px;
-
     padding: 20px 22px;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     border: 1px solid #e2e8e4;
-
     border-radius: 12px;
 }
 
-
 .pump-control h3 {
     margin: 0;
-
     font-size: 17px;
 }
 
 
 .pump-control p {
     margin: 5px 0 0;
-
     color: #808983;
-
     font-size: 14px;
 }
 
-
-/* SWITCH */
-
 .switch {
     position: relative;
-
     display: inline-block;
-
     width: 62px;
     height: 34px;
 }
 
-
 .switch input {
     opacity: 0;
-
     width: 0;
     height: 0;
 }
 
-
 .slider {
     position: absolute;
-
-    cursor: pointer;
-
     inset: 0;
-
+    cursor: pointer;
     background: #c9cfcb;
-
     border-radius: 50px;
-
     transition: 0.3s;
 }
-
 
 .slider::before {
     content: "";
-
     position: absolute;
-
     width: 26px;
     height: 26px;
-
     left: 4px;
     top: 4px;
-
     border-radius: 50%;
-
-    background: white;
-
+    background: #ffffff;
     box-shadow:
         0 2px 5px
         rgba(0, 0, 0, 0.2);
-
     transition: 0.3s;
 }
-
 
 .switch input:checked + .slider {
     background: #1da963;
 }
 
-
 .switch input:checked + .slider::before {
     transform: translateX(28px);
 }
 
+/* GRAFANA */
+
+.grafana-frame {
+    display: block;
+    width: 100%;
+    height: 800px;
+    border: none;
+    border-radius: 14px;
+}
 
 /* FOOTER */
 
 footer {
     padding: 30px;
-
     text-align: center;
-
     color: #98a09b;
-
     font-size: 14px;
+}
+
+/* MOBILE */
+
+/* TELEGRAM */
+
+.telegram-image {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    border-radius: 14px;
 }
 
 
@@ -511,61 +366,115 @@ footer {
 
 @media (max-width: 700px) {
 
-    .header-content {
-        padding: 20px 0;
-
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-
-    .grafana-button {
-        width: 100%;
-    }
-
-
-    .panel {
-        padding: 18px;
-    }
-
-
-    .panel-header {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-
-    .greenhouse-image img {
-        height: 320px;
-    }
-
-
-    .irrigation-system {
-        padding: 25px 10px;
-    }
-
-
-    .device {
-        width: 90px;
-        height: 100px;
-    }
-
-
-    .pipe {
-        width: 30px;
-    }
-
-
-    .pump-control {
+    .container {
+        width: 94%;
+        margin: 20px auto;
         gap: 20px;
     }
 
-}
+    .panel {
+        width: 100%;
+        min-width: 0;
+        padding: 14px;
+        overflow: hidden;
+    }
+
+    .header-content {
+        width: 94%;
+        padding: 20px 0;
+    }
+
+    .header h1 {
+        font-size: 24px;
+    }
+
+    .panel-header {
+        margin-bottom: 14px;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
 
-.grafana-frame {
-    width: 100%;
-    height: 800px;
-    border: none;
-    border-radius: 14px;
+    /* ФОТО ТЕПЛИЦЫ */
+
+    .greenhouse-media {
+        display: flex;
+        flex-direction: column;
+
+        width: 100%;
+
+        gap: 12px;
+    }
+
+    .greenhouse-image,
+    .cactus-image {
+        width: 100%;
+        height: 220px;
+
+        min-width: 0;
+
+        margin: 0;
+
+        overflow: hidden;
+
+        border-radius: 12px;
+    }
+
+    .greenhouse-image > img,
+    .cactus-image > img {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+        height: 100%;
+
+        object-fit: cover;
+    }
+
+
+    /* TELEGRAM */
+
+    .telegram-image {
+        display: block;
+
+        width: 100%;
+        max-width: 100%;
+        height: auto;
+
+        border-radius: 12px;
+    }
+
+
+    /* GRAFANA */
+
+    .grafana-frame {
+        display: block;
+
+        width: 100%;
+        height: 600px;
+
+        border: none;
+    }
+
+
+    /* ПОЛИВ */
+
+    .irrigation-system {
+        padding: 20px 8px;
+        overflow-x: auto;
+    }
+
+    .device {
+        width: 80px;
+        height: 90px;
+    }
+
+    .pipe {
+        width: 20px;
+    }
+
+    .pump-control {
+        gap: 15px;
+    }
+
 }
