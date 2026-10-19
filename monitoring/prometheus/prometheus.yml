@@ -29,4 +29,4 @@ scrape_configs:
 
   - job_name: "greenhouse-api"
     static_configs:
-      - targets: ["10.0.0.2:8000"]
+      - targets: ["10.0.0.333:8000"]
