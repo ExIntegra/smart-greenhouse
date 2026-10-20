@@ -4,7 +4,8 @@
 
 ESP32 считывает показания датчиков и передает их по Wi-Fi в формате JSON. API предоставляет метрики для Prometheus, а веб-страница объединяет изображения теплицы, пример уведомления и встроенный дашборд Grafana.
 
-При наличие только серого IP, используется Wireguard tunnel для передачи метрик из API к VPS по зашифрованному туннелю. На VPS реализовывается сервисная инфраструктура: prometheus, grafana, alertmager, docker, nginx.
+При сером IP домашний Raspberry Pi соединяется с VPS через зашифрованный туннель WireGuard. ESP32 отправляет показания в API по домашней сети, а Prometheus на VPS получает метрики API через этот туннель. На VPS работают Prometheus, Grafana, Alertmanager и Nginx в Docker-контейнерах.
+
 ## Возможности
 
 - Считывание температуры с DS18B20 и DHT11.
@@ -21,14 +22,25 @@ API обрабатывает температуру, влажность возд
 ```mermaid
 flowchart TD
     S[Датчики] --> E[ESP32]
-    E -->|POST JSON| A[API на Go]
-    P[Prometheus] -->|VPN Tunnel: GET /metrics| A
+    E -->|POST JSON по LAN| A[API на Raspberry Pi]
+    P[Prometheus на VPS] -->|WireGuard: GET /metrics| A
     G[Grafana] -->|PromQL| P
     P -->|Алерты| M[Alertmanager]
     M --> T[Telegram]
     B[Браузер] --> W[Nginx и веб-страница]
     W -->|/grafana/| G
 ```
+
+Адреса в текущей схеме:
+
+| Подключение                                            | Адрес                                        |
+| ------------------------------------------------------ | -------------------------------------------- |
+| ESP32 отправляет показания в API по домашней сети      | `http://192.168.0.133:8000/api/v1/telemetry` |
+| Prometheus на VPS получает метрики API через WireGuard | `http://10.0.0.3:8000/metrics`               |
+| Пользователь открывает сайт на VPS                     | `https://growpanel.ru`                       |
+| IP адрес VPN                                           | `http://10.0.0.2`                            |
+
+`192.168.0.133` является LAN-адресом Raspberry Pi, а `10.0.0.3` его адресом в WireGuard.
 
 API хранит последние значения в памяти. Историю измерений сохраняет Prometheus в Docker volume. После перезапуска API значения датчиков появятся снова после получения новой телеметрии.
 
@@ -39,7 +51,7 @@ API хранит последние значения в памяти. Истор
 | `esp-32/readsensors.cpp`         | Основная прошивка ESP32                                           |
 | `esp-32/preferences.example.cpp` | Пример записи Wi-Fi и API-ключа в NVS                             |
 | `greenhouse-api/main.go`         | HTTP API и метрики Prometheus                                     |
-| `greenhouse-api/Dockerfile`      | multistage сборка API                                             |
+| `greenhouse-api/Dockerfile`      | Многоэтапная сборка API                                             |
 | `monitoring/prometheus/`         | Сбор метрик и правила оповещений                                  |
 | `monitoring/alertmanager/`       | Маршрутизация алертов и шаблон Telegram                           |
 | `monitoring/grafana/`            | Каталог для конфигурации Grafana, пока содержит только `.gitkeep` |
@@ -48,7 +60,6 @@ API хранит последние значения в памяти. Истор
 | `certbot/`                       | Каталоги сертификатов и ACME challenge                            |
 | `docker-compose.yml`             | Серверные сервисы, сети и volumes                                 |
 | `.env.example`                   | Пример переменных окружения                                       |
-
 ## Оборудование
 
 - ESP32 с Wi-Fi.
@@ -74,7 +85,7 @@ GPIO, заданные в прошивке:
 
 ## Запуск сервера
 
-Все команды выполняются из корня репозитория. Инструкция ниже сначала запускает мониторинг в локальной сети. Веб-страница с HTTPS подключается отдельно после получения сертификата.
+Основная схема использует два хоста: Raspberry Pi дома с API и VPS с мониторингом и веб-страницей. Команды выполняются из корня репозитория на указанном хосте. WireGuard должен быть настроен между Raspberry Pi и VPS заранее; `его конфигурации в репозитории нет.`
 
 ### 1. Подготовить конфигурацию
 
@@ -84,7 +95,7 @@ cd smart-greenhouse
 cp .env.example .env
 ```
 
-**Если используется разделение на VPS и клиента с серым IP, то со стороны клиента нужно развернуть код на ESP32 и greenhouse-api. Docker compose разворачивается на VPS.**
+**Размещаются ESP32 и greenhouse-api на Raspberry Pi. На VPS через Docker Compose запускаются Prometheus, Grafana, Alertmanager и Nginx. API на VPS в этой схеме запускать не требуется.**
 
 В `.env` задайте собственный непустой ключ:
 
@@ -92,13 +103,57 @@ cp .env.example .env
 API_KEY=replace-with-your-own-random-key
 ```
 
-Этот же ключ необходимо записать в ESP32. Файл `.env` исключен из Git.
+Файл `.env` с этим ключом используется при запуске API на Raspberry Pi. Тот же ключ необходимо записать в ESP32.
 
-В текущем Compose используется только `API_KEY`. Переменные `DOMAIN`, `TELEGRAM_API_URL` и `TELEGRAM_BOT_TOKEN` из `.env.example` не подставляются в настройки Nginx, Grafana или Alertmanager. Их нужно настроить в соответствующих файлах.
+В `.env.example` есть дополнительные переменные `DOMAIN`, `TELEGRAM_API_URL` и `TELEGRAM_BOT_TOKEN`, но текущая конфигурация их не использует. Места для настройки указаны ниже.
 
+Настройки читаются из следующих мест:
+
+| Настройка               | Где задается                                                |
+| ----------------------- | ----------------------------------------------------------- |
+| Ключ Go API             | `API_KEY` в `.env` на Raspberry Pi, Docker передает ключ контейнеру API     |
+| Домен Nginx             | `server_name` и пути сертификатов в `web-server/nginx.conf` |
+| Публичный адрес Grafana | `GF_SERVER_ROOT_URL` в `docker-compose.yml`                 |
+| Адрес Telegram API      | `api_url` в `monitoring/alertmanager/alertmanager.yml`      |
+| Токен Telegram-бота     | Обычный текстовый файл `secrets/telegram_token` на VPS      |
 ### 2. Настроить доступ к API
 
-В `monitoring/prometheus/prometheus.yml` замените адрес `10.0.0.3:8000` у задания `greenhouse-api` на имя Compose-сервиса:
+**Основная схема: Raspberry Pi за серым IP и VPS через WireGuard.**
+
+На Raspberry Pi API должен быть доступен по порту `8000` из домашней сети для ESP32 и через WireGuard для Prometheus. Если API еще не запущен, его можно собрать и запустить отдельно от серверного Compose:
+
+```bash
+docker build -t greenhouse-api ./greenhouse-api
+docker run -d \
+  --name greenhouse-api \
+  --restart unless-stopped \
+  --env-file .env \
+  -p 8000:8000 \
+  greenhouse-api
+```
+
+Эти команды выполняются на Raspberry Pi. Если API уже работает, повторно запускать его не нужно. Публикация порта делает API доступным на интерфейсах Raspberry Pi; проброс порта на домашнем роутере не требуется.
+
+На VPS в `monitoring/prometheus/prometheus.yml` у задания `greenhouse-api` укажите WireGuard-адрес Raspberry Pi:
+
+```yaml
+  - job_name: "greenhouse-api"
+    static_configs:
+      - targets: ["10.0.0.3:8000"]
+```
+
+Проверьте доступность API с VPS:
+
+```bash
+curl http://10.0.0.3:8000/health
+curl http://10.0.0.3:8000/metrics
+```
+
+После запуска Prometheus убедитесь, что задание `greenhouse-api` имеет состояние `UP`. Контейнеру Prometheus также нужен доступ к адресу Raspberry Pi через WireGuard на VPS.
+
+**Другой вариант: API и Prometheus в общей Docker-сети одного Compose-проекта.**
+
+Только при таком размещении можно использовать имя сервиса:
 
 ```yaml
   - job_name: "greenhouse-api"
@@ -106,16 +161,7 @@ API_KEY=replace-with-your-own-random-key
       - targets: ["greenhouse-api:8000"]
 ```
 
-API слушает порт `8000` внутри контейнера, но исходный Compose не публикует его на хосте. Чтобы ESP32 могла обращаться к API, создайте рядом с `docker-compose.yml` файл `docker-compose.override.yml`:
-
-```yaml
-services:
-  greenhouse-api:
-    ports:
-      - "8000:8000"
-```
-
-Docker Compose автоматически подключает этот файл. Разрешите доступ к порту `8000` из сети ESP32. В таком варианте телеметрия передается по HTTP, поэтому используйте доверенную локальную сеть или защищенный сетевой канал.
+Выбор между этими адресами зависит от расположения сервисов и сети между ними. Наличие белого IP само по себе не делает имя контейнера доступным на другом хосте.
 
 ### 3. Настроить Telegram
 
@@ -126,6 +172,8 @@ mkdir -p secrets
 printf '%s' 'YOUR_TELEGRAM_BOT_TOKEN' > secrets/telegram_token
 ```
 
+Все действия этого шага выполняются на VPS. `secrets` является обычной папкой, а `telegram_token` обычным текстовым файлом, в котором записан только токен бота. Compose подключает этот файл внутрь контейнера по пути `/run/secrets/telegram_token`, откуда Alertmanager читает токен.
+
 Каталог `secrets/` исключен из Git. Файл должен быть доступен для чтения пользователю внутри контейнера Alertmanager.
 
 В `monitoring/alertmanager/alertmanager.yml` укажите собственные значения:
@@ -135,37 +183,40 @@ printf '%s' 'YOUR_TELEGRAM_BOT_TOKEN' > secrets/telegram_token
 
 Alertmanager читает токен из `/run/secrets/telegram_token`. Значение `TELEGRAM_BOT_TOKEN` в `.env` этот файл не заменяет.
 
-### 4. Подготовить Grafana для локального запуска
+### 4. Настроить Grafana на VPS
 
-В `docker-compose.yml` временно замените `GF_SERVER_ROOT_URL` на адрес своего сервера:
+Grafana открывается через Nginx на VPS. Для домена проекта в `docker-compose.yml` уже указан адрес:
 
 ```yaml
-GF_SERVER_ROOT_URL: "http://192.168.0.133:3000/grafana/"
+GF_SERVER_ROOT_URL: "https://growpanel.ru/grafana/"
 ```
 
-Здесь и далее `192.168.0.133` приведен как пример. Подставьте реальный IP сервера. Остальные параметры Grafana, включая обслуживание из `/grafana/`, оставьте как в Compose.
+Если используется другой домен, замените его здесь и в `web-server/nginx.conf`. Домен должен указывать на публичный IP VPS. Параметр `GF_SERVER_SERVE_FROM_SUB_PATH` оставьте включенным для работы через `/grafana/`.
 
-### 5. Запустить сервисы
+### 5. Запустить сервисы на VPS
 
 ```bash
-docker compose up -d --build greenhouse-api prometheus grafana alertmanager node_exporter cadvisor
+docker compose up -d prometheus grafana alertmanager node_exporter cadvisor
 docker compose ps
 ```
 
-Nginx пока не запускается: его HTTPS-конфигурация требует существующих файлов сертификата. Certbot вызывается отдельно для выдачи и продления сертификатов.
+При первом развертывании получите сертификат по инструкции в разделе HTTPS, затем запустите Nginx. Если сертификат уже существует по настроенному пути, выполните `docker compose up -d nginx`. Certbot вызывается отдельно для выдачи и продления сертификатов.
 
 | Сервис | Адрес после настройки |
 | --- | --- |
-| API | `http://SERVER_IP:8000` |
-| Grafana | `http://SERVER_IP:3000/grafana/` |
-| Prometheus | `http://127.0.0.1:9090` на сервере |
-| Alertmanager | `http://127.0.0.1:9093` на сервере |
-| cAdvisor | `http://127.0.0.1:8090` на сервере |
-| Node Exporter | Порт `9100` хоста |
+| API из домашней сети | `http://192.168.0.133:8000` |
+| API с VPS через WireGuard | `http://10.0.0.3:8000` |
+| Grafana через Nginx | `https://growpanel.ru/grafana/` |
+| Prometheus | `http://127.0.0.1:9090` на VPS |
+| Alertmanager | `http://127.0.0.1:9093` на VPS |
+| cAdvisor | `http://127.0.0.1:8090` на VPS |
+| Node Exporter | Порт `9100` хоста VPS |
 
 Для Grafana в исходной конфигурации включен анонимный просмотр с ролью `Viewer`. Административную настройку выполняйте после входа в учетную запись администратора.
 
 ## Проверка API
+
+Следующие команды выполняются на Raspberry Pi. При проверке с VPS замените `localhost:8000` на `10.0.0.3:8000`.
 
 Проверить доступность процесса:
 
@@ -266,7 +317,7 @@ curl -s http://localhost:8000/metrics | grep '^greenhouse_'
 2. Укажите `WIFI_SSID`, `WIFI_PASSWORD` и `API_KEY`, совпадающий с серверным ключом.
 3. Загрузите скетч на ESP32. Он запишет настройки в NVS в пространстве `config`.
 4. Создайте другой скетч на основе `esp-32/readsensors.cpp`. Для Arduino IDE перенесите содержимое в основной файл `.ino`.
-5. В `SERVER_URL` задайте адрес API, например `http://192.168.0.133:8000/api/v1/telemetry`.
+5. В `SERVER_URL` задайте LAN-адрес API на Raspberry Pi: `http://192.168.0.133:8000/api/v1/telemetry`. ESP32 отправляет данные по домашнему Wi-Fi.
 6. Проверьте GPIO, идентификаторы датчиков и значения калибровки.
 7. Загрузите основную прошивку без полного стирания flash, чтобы сохранить NVS.
 8. Откройте Serial Monitor со скоростью `115200` и проверьте показания и HTTP-ответы.
@@ -291,7 +342,7 @@ curl -s http://localhost:8000/metrics | grep '^greenhouse_'
 
 ## Дашборд Grafana
 
-После запуска добавьте в Grafana источник данных Prometheus с адресом `http://prometheus:9090`.
+После запуска добавьте в Grafana источник данных Prometheus с адресом `http://prometheus:9090`. Здесь имя `prometheus` подходит, поскольку Grafana и Prometheus работают в общей Docker-сети на VPS.
 
 Пример запроса для графика температуры:
 
@@ -331,7 +382,7 @@ rate(greenhouse_telemetry_received_total[5m])
 
 Алерт получает метку `severity: warning` и передается в Telegram. Alertmanager группирует уведомления по `instance`, повторяет активное уведомление с настроенным интервалом `1m` и отправляет сообщение о разрешении алерта. Текст сообщения задается в `monitoring/alertmanager/templates/telegram.tmpl`.
 
-Чтобы изменить порог, длительность или отслеживаемый датчик, отредактируйте правило и перезапустите Prometheus:
+Чтобы изменить порог, длительность или отслеживаемый датчик, отредактируйте правило и перезапустите Prometheus на VPS:
 
 ```bash
 docker compose restart prometheus
@@ -339,7 +390,7 @@ docker compose restart prometheus
 
 ## Веб-страница и HTTPS
 
-Для публичного доступа нужен домен, направленный на сервер, и доступность TCP-портов `80` и `443`. В примерах ниже замените `example.ru` своим доменом.
+Этот раздел выполняется на VPS. Домен направляется на публичный IP VPS, где должны быть доступны TCP-порты `80` и `443`. Домашний Raspberry Pi остается за серым IP и доступен VPS через WireGuard. В примерах ниже замените `example.ru` своим доменом; в текущем проекте используется `growpanel.ru`.
 
 1. В `web-server/nginx.conf` замените `growpanel.ru` и `www.growpanel.ru` на свои имена. Обновите пути к сертификатам на `/etc/letsencrypt/live/example.ru/fullchain.pem` и `/etc/letsencrypt/live/example.ru/privkey.pem`.
 2. В `docker-compose.yml` задайте `GF_SERVER_ROOT_URL: "https://example.ru/grafana/"`.
@@ -357,7 +408,7 @@ docker compose run --rm -p 80:80 certbot certonly \
   --no-eff-email
 ```
 
-Оба доменных имени должны указывать на сервер. Если `www` не используется, удалите его из команды и конфигурации Nginx.
+Оба доменных имени должны указывать на VPS. Если `www` не используется, удалите его из команды и конфигурации Nginx.
 
 Запустите Nginx и примените измененный адрес Grafana:
 
@@ -376,40 +427,60 @@ docker compose run --rm certbot renew \
 docker compose exec nginx nginx -s reload
 ```
 
-Автоматическое продление в Compose не настроено. Команды продления и перезагрузки Nginx нужно запускать по расписанию на сервере.
+Автоматическое продление в Compose не настроено. Команды продления и перезагрузки Nginx нужно запускать по расписанию на VPS.
 
 ## Обслуживание
 
-Посмотреть состояние и логи:
+На VPS посмотреть состояние и логи мониторинга:
 
 ```bash
 docker compose ps
-docker compose logs -f greenhouse-api prometheus alertmanager
+docker compose logs -f prometheus alertmanager
 ```
 
-Применить изменения конфигурации Alertmanager:
+Применить изменения конфигурации Alertmanager на VPS:
 
 ```bash
 docker compose restart alertmanager
 ```
 
-Пересобрать API после изменения Go-кода:
+На Raspberry Pi посмотреть логи API, если он запущен отдельным контейнером по инструкции выше:
 
 ```bash
-docker compose up -d --build greenhouse-api
+docker logs -f greenhouse-api
 ```
 
-Остановить проект с сохранением данных:
+После изменения Go-кода пересоберите образ на Raspberry Pi и пересоздайте контейнер:
+
+```bash
+docker build -t greenhouse-api ./greenhouse-api
+docker stop greenhouse-api
+docker rm greenhouse-api
+docker run -d \
+  --name greenhouse-api \
+  --restart unless-stopped \
+  --env-file .env \
+  -p 8000:8000 \
+  greenhouse-api
+```
+
+Остановить серверные сервисы на VPS с сохранением данных:
 
 ```bash
 docker compose down
 ```
 
-Данные Prometheus, Grafana и Alertmanager находятся в именованных Docker volumes. Сертификаты сохраняются в `certbot/conf/`. Добавление `-v` к команде `down` удаляет именованные volumes и хранящиеся в них данные.
+Остановить отдельно запущенный API на Raspberry Pi:
+
+```bash
+docker stop greenhouse-api
+```
+
+Данные Prometheus, Grafana и Alertmanager находятся в именованных Docker volumes на VPS. Сертификаты сохраняются в `certbot/conf/`. Добавление `-v` к команде `down` удаляет именованные volumes и хранящиеся в них данные.
 
 ## Ограничения текущей реализации
 
 - Отсутствие новых показаний не отслеживается отдельным правилом. Последняя температура остается в API до перезапуска, поэтому действующий алерт может сохраняться после отключения датчика.
-- В Nginx настроено проксирование только Grafana. Маршрут `/api/v1/telemetry` через публичный HTTPS-домен не опубликован.
+- Через публичный Nginx доступны веб-страница и Grafana. Телеметрия поступает в домашний API по LAN, а сбор метрик с VPS идет через WireGuard.
 - `/health` проверяет доступность API-процесса, но не состояние датчиков и остальных компонентов.
 - Настройки домена, адреса сервера и Telegram содержат значения конкретного развертывания и требуют замены перед запуском.
