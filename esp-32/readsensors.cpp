@@ -1,3 +1,8 @@
+// readsensors.cpp - файл для считывания датчиков и обработки данных, полученных
+// из этих датчиков. применяется esp32 - микроконтроллер с WiFi модулем.
+// перед подключением к сети убедитесь, что контакты подключены правильно и нет риска
+// возникновения короткого замыкания.
+
 #include <WiFi.h>
 #include <HTTPClient.h>
 #include <OneWire.h>
@@ -9,6 +14,7 @@
 String WIFI_SSID;
 String WIFI_PASSWORD;
 String API_KEY;
+
 
 const char* SERVER_URL ="http://192.168.0.133:8000/api/v1/telemetry";
 
