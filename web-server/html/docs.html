@@ -1,68 +1,63 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Документация проекта Smart Greenhouse: ESP32, Go API, Prometheus, Grafana, Alertmanager, Docker Compose, WireGuard и HTTPS.">
-  <title>Документация · Smart Greenhouse</title>
-  <link rel="stylesheet" href="/style.css?v=3">
-  <link rel="stylesheet" href="/docs.css?v=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Документация проекта умной теплицы: ESP32, Go, Prometheus, Grafana и Docker.">
+    <title>Документация | Умная теплица</title>
+    <link rel="stylesheet" href="/style.css?v=3">
+    <link rel="stylesheet" href="/docs.css?v=2">
 </head>
-<body id="top">
-  <a class="docs-skip" href="#docs-content">Перейти к документации</a>
-  <header class="header">
-    <div class="header-content">
-      <div><h1>Умная теплица</h1><p>Панель управления и мониторинга</p></div>
-      <nav class="site-nav" aria-label="Навигация по сайту">
-        <a href="/">Главная</a>
-        <a class="active" aria-current="page" href="/docs.html">Документация</a>
-        <a href="/grafana/">Grafana</a>
-      </nav>
-    </div>
-  </header>
-  <div class="docs-shell">
-    <section class="docs-hero" aria-labelledby="docs-title">
-      <div>
-        <span class="docs-kicker">SMART GREENHOUSE · TECHNICAL DOCUMENTATION</span>
-        <h2 id="docs-title">Документация</h2>
-        <p>Устройство системы, оборудование, развёртывание, API, мониторинг и обслуживание.</p>
-        <div class="docs-tags"><span>ESP32</span><span>Go</span><span>Prometheus</span><span>Grafana</span><span>WireGuard</span></div>
-      </div>
-      <a class="docs-github" href="https://github.com/ExIntegra/smart-greenhouse" target="_blank" rel="noopener noreferrer">Исходный код на GitHub ↗</a>
-    </section>
-    <div class="docs-layout">
-      <aside class="docs-sidebar" aria-label="Содержание документации">
-        <div class="docs-sidebar-title">Содержание <span>12 разделов</span></div>
-        <nav class="docs-toc"><a class="docs-toc-link " href="#возможности">Возможности</a>
-<a class="docs-toc-link " href="#архитектура">Архитектура</a>
-<a class="docs-toc-link " href="#компоненты-проекта">Компоненты проекта</a>
-<a class="docs-toc-link " href="#оборудование">Оборудование</a>
-<a class="docs-toc-link " href="#запуск-сервера">Запуск сервера</a>
-<a class="docs-toc-link docs-toc-sub" href="#1-подготовить-конфигурацию">1. Подготовить конфигурацию</a>
-<a class="docs-toc-link docs-toc-sub" href="#2-настроить-доступ-к-api">2. Настроить доступ к API</a>
-<a class="docs-toc-link docs-toc-sub" href="#3-настроить-telegram">3. Настроить Telegram</a>
-<a class="docs-toc-link docs-toc-sub" href="#4-настроить-grafana-на-vps">4. Настроить Grafana на VPS</a>
-<a class="docs-toc-link docs-toc-sub" href="#5-запустить-сервисы-на-vps">5. Запустить сервисы на VPS</a>
-<a class="docs-toc-link " href="#проверка-api">Проверка API</a>
-<a class="docs-toc-link docs-toc-sub" href="#http-endpoints">HTTP endpoints</a>
-<a class="docs-toc-link docs-toc-sub" href="#метрики-проекта">Метрики проекта</a>
-<a class="docs-toc-link " href="#прошивка-esp32">Прошивка ESP32</a>
-<a class="docs-toc-link docs-toc-sub" href="#калибровка-аналоговых-датчиков">Калибровка аналоговых датчиков</a>
-<a class="docs-toc-link " href="#дашборд-grafana">Дашборд Grafana</a>
-<a class="docs-toc-link " href="#оповещения">Оповещения</a>
-<a class="docs-toc-link " href="#веб-страница-и-https">Веб-страница и HTTPS</a>
-<a class="docs-toc-link " href="#обслуживание">Обслуживание</a>
-<a class="docs-toc-link " href="#ограничения-текущей-реализации">Ограничения текущей реализации</a></nav>
-        <a class="docs-back" href="#top">↑ Наверх</a>
-      </aside>
-      <main id="docs-content" class="docs-article panel">
-        <div class="docs-readme-origin">Материал: <a href="https://github.com/ExIntegra/smart-greenhouse/blob/main/README.md" target="_blank" rel="noopener noreferrer">README.md проекта ↗</a></div>
-        <article class="docs-markdown">
-          <h1 class="docs-readme-title">Smart Greenhouse</h1>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div>
+                <h1>Умная теплица</h1>
+                <p>Панель управления и мониторинга</p>
+            </div>
+            <nav class="site-nav" aria-label="Навигация по сайту">
+                <a href="/">Главная</a>
+                <a class="active" aria-current="page" href="/docs.html">Документация</a>
+                <a href="/grafana/">Grafana</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container docs-container">
+        <section class="panel">
+            <div class="panel-header">
+                <div>
+                    <h2>Документация</h2>
+                    <p>Описание и настройка системы мониторинга теплицы</p>
+                </div>
+            </div>
+            <div class="docs-index">
+                <h3>Содержание</h3>
+                <nav class="docs-toc" aria-label="Разделы документации">
+                    <a href="#возможности">Возможности</a>
+<a href="#архитектура">Архитектура</a>
+<a href="#компоненты-проекта">Компоненты проекта</a>
+<a href="#оборудование">Оборудование</a>
+<a href="#запуск-сервера">Запуск сервера</a>
+<a href="#проверка-api">Проверка API</a>
+<a href="#прошивка-esp32">Прошивка ESP32</a>
+<a href="#дашборд-grafana">Дашборд Grafana</a>
+<a href="#оповещения">Оповещения</a>
+<a href="#веб-страница-и-https">Веб-страница и HTTPS</a>
+<a href="#обслуживание">Обслуживание</a>
+<a href="#ограничения-текущей-реализации">Ограничения текущей реализации</a>
+                </nav>
+            </div>
+        </section>
+
+        <section class="panel docs-article" aria-label="Техническая документация">
+            <p class="docs-source-link">Исходный текст: <a href="https://github.com/ExIntegra/smart-greenhouse/blob/main/README.md" target="_blank" rel="noopener noreferrer">README.md на GitHub</a></p>
+            <article class="docs-markdown">
+<h1 class="docs-readme-title">Smart Greenhouse</h1>
           <p>Система мониторинга теплицы на ESP32 с API на Go, хранением метрик в Prometheus, визуализацией в Grafana и уведомлениями в Telegram через Alertmanager. Серверные компоненты запускаются с помощью Docker Compose.</p>
 <p>ESP32 считывает показания датчиков и передает их по Wi-Fi в формате JSON. API предоставляет метрики для Prometheus, а веб-страница объединяет изображения теплицы, пример уведомления и встроенный дашборд Grafana.</p>
 <p>При сером IP домашний Raspberry Pi соединяется с VPS через зашифрованный туннель WireGuard. ESP32 отправляет показания в API по домашней сети, а Prometheus на VPS получает метрики API через этот туннель. На VPS работают Prometheus, Grafana, Alertmanager и Nginx в Docker-контейнерах.</p>
-<h2 id="возможности">Возможности<a class="docs-anchor" href="#возможности" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="возможности">Возможности</h2>
 <ul>
 <li>Считывание температуры с DS18B20 и DHT11.</li>
 <li>Считывание влажности воздуха, влажности почвы и относительной освещенности на ESP32.</li>
@@ -72,7 +67,7 @@
 <li>Веб-страница на HTML/CSS с Grafana, Nginx и HTTPS.</li>
 </ul>
 <p>API обрабатывает температуру, влажность воздуха и почвы, а также относительную освещенность. Показания разных датчиков различаются по меткам <code>device_id</code> и <code>sensor_id</code>. <strong>Управление поливом, вентиляцией и освещением в коде не реализовано.</strong></p>
-<h2 id="архитектура">Архитектура<a class="docs-anchor" href="#архитектура" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="архитектура">Архитектура</h2>
 <div class="docs-diagram" role="img" aria-label="Датчики передают данные через ESP32 в API на Raspberry Pi; Prometheus на VPS считывает метрики через WireGuard, Grafana строит графики, Alertmanager отправляет сообщения в Telegram, Nginx обслуживает сайт и Grafana.">
   <div class="docs-diagram-row"><span>Датчики</span><b aria-hidden="true">→</b><span>ESP32</span><b aria-hidden="true">→</b><span>API · Raspberry Pi</span></div>
   <div class="docs-diagram-row"><span>Prometheus · VPS</span><b aria-hidden="true">→</b><em>GET /metrics · WireGuard</em><b aria-hidden="true">→</b><span>API · Raspberry Pi</span></div>
@@ -92,9 +87,9 @@
 <div class="docs-table-wrap"><table><thead><tr><th>Подключение</th><th>Адрес</th></tr></thead><tbody><tr><td>ESP32 отправляет показания в API по домашней сети</td><td><code>http://192.168.0.133:8000/api/v1/telemetry</code></td></tr><tr><td>Prometheus на VPS получает метрики API через WireGuard</td><td><code>http://10.0.0.3:8000/metrics</code></td></tr><tr><td>Пользователь открывает сайт на VPS</td><td><code>https://growpanel.ru</code></td></tr><tr><td>IP адрес VPN</td><td><code>http://10.0.0.2</code></td></tr></tbody></table></div>
 <p><code>192.168.0.133</code> является LAN-адресом Raspberry Pi, а <code>10.0.0.3</code> его адресом в WireGuard.</p>
 <p>API хранит последние значения в памяти. Историю измерений сохраняет Prometheus в Docker volume. После перезапуска API значения датчиков появятся снова после получения новой телеметрии.</p>
-<h2 id="компоненты-проекта">Компоненты проекта<a class="docs-anchor" href="#компоненты-проекта" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="компоненты-проекта">Компоненты проекта</h2>
 <div class="docs-table-wrap"><table><thead><tr><th>Путь</th><th>Назначение</th></tr></thead><tbody><tr><td><code>esp-32/readsensors.cpp</code></td><td>Основная прошивка ESP32</td></tr><tr><td><code>esp-32/preferences.example.cpp</code></td><td>Пример записи Wi-Fi и API-ключа в NVS</td></tr><tr><td><code>greenhouse-api/main.go</code></td><td>HTTP API и метрики Prometheus</td></tr><tr><td><code>greenhouse-api/Dockerfile</code></td><td>Многоэтапная сборка API</td></tr><tr><td><code>monitoring/prometheus/</code></td><td>Сбор метрик и правила оповещений</td></tr><tr><td><code>monitoring/alertmanager/</code></td><td>Маршрутизация алертов и шаблон Telegram</td></tr><tr><td><code>monitoring/grafana/</code></td><td>Каталог для конфигурации Grafana, пока содержит только <code>.gitkeep</code></td></tr><tr><td><code>web-server/nginx.conf</code></td><td>HTTPS, статические файлы и проксирование Grafana</td></tr><tr><td><code>web-server/html/</code></td><td>Веб-страница, стили и изображения</td></tr><tr><td><code>certbot/</code></td><td>Каталоги сертификатов и ACME challenge</td></tr><tr><td><code>docker-compose.yml</code></td><td>Серверные сервисы, сети и volumes</td></tr><tr><td><code>.env.example</code></td><td>Пример переменных окружения</td></tr></tbody></table></div>
-<h2 id="оборудование">Оборудование<a class="docs-anchor" href="#оборудование" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="оборудование">Оборудование</h2>
 <ul>
 <li>ESP32 с Wi-Fi.</li>
 <li>Датчик температуры DS18B20.</li>
@@ -108,23 +103,23 @@
 <div class="docs-table-wrap"><table><thead><tr><th>Датчик</th><th>GPIO ESP32</th><th>Идентификатор в телеметрии</th></tr></thead><tbody><tr><td>DS18B20</td><td>4</td><td><code>ds18b20-01</code></td></tr><tr><td>DHT11</td><td>5</td><td><code>dht11-01</code></td></tr><tr><td>Влажность почвы</td><td>34</td><td><code>soil-moisture-01</code></td></tr><tr><td>Освещенность</td><td>35</td><td><code>light=sensor-01</code></td></tr></tbody></table></div>
 <p>Общий идентификатор контроллера: <code>greenhouse-esp32-01</code>. Для нескольких ESP32 задайте каждому устройству свой <code>DEVICE_ID</code>. Запись <code>light=sensor-01</code> соответствует текущему коду.</p>
 <p>Таблица описывает сигнальные выводы. Питание и допустимые уровни сигналов выбирайте по характеристикам конкретных модулей. Аналоговые входы ESP32 должны получать сигнал в допустимом для платы диапазоне.</p>
-<h2 id="запуск-сервера">Запуск сервера<a class="docs-anchor" href="#запуск-сервера" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="запуск-сервера">Запуск сервера</h2>
 <p>Основная схема использует два хоста: Raspberry Pi дома с API и VPS с мониторингом и веб-страницей. Команды выполняются из корня репозитория на указанном хосте. WireGuard должен быть настроен между Raspberry Pi и VPS заранее; <code>его конфигурации в репозитории нет.</code></p>
-<h3 id="1-подготовить-конфигурацию">1. Подготовить конфигурацию<a class="docs-anchor" href="#1-подготовить-конфигурацию" aria-label="Ссылка на раздел">#</a></h3>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>git clone https://github.com/ExIntegra/smart-greenhouse.git
+<h3 id="1-подготовить-конфигурацию">1. Подготовить конфигурацию</h3>
+<div class="docs-code"><pre><code>git clone https://github.com/ExIntegra/smart-greenhouse.git
 cd smart-greenhouse
 cp .env.example .env</code></pre></div>
 <p><strong>Размещаются ESP32 и greenhouse-api на Raspberry Pi. На VPS через Docker Compose запускаются Prometheus, Grafana, Alertmanager и Nginx. API на VPS в этой схеме запускать не требуется.</strong></p>
 <p>В <code>.env</code> задайте собственный непустой ключ:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>dotenv</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>API_KEY=replace-with-your-own-random-key</code></pre></div>
+<div class="docs-code"><pre><code>API_KEY=replace-with-your-own-random-key</code></pre></div>
 <p>Файл <code>.env</code> с этим ключом используется при запуске API на Raspberry Pi. Тот же ключ необходимо записать в ESP32.</p>
 <p>В <code>.env.example</code> есть дополнительные переменные <code>DOMAIN</code>, <code>TELEGRAM_API_URL</code> и <code>TELEGRAM_BOT_TOKEN</code>, но текущая конфигурация их не использует. Места для настройки указаны ниже.</p>
 <p>Настройки читаются из следующих мест:</p>
 <div class="docs-table-wrap"><table><thead><tr><th>Настройка</th><th>Где задается</th></tr></thead><tbody><tr><td>Ключ Go API</td><td><code>API_KEY</code> в <code>.env</code> на Raspberry Pi, Docker передает ключ контейнеру API</td></tr><tr><td>Домен Nginx</td><td><code>server_name</code> и пути сертификатов в <code>web-server/nginx.conf</code></td></tr><tr><td>Публичный адрес Grafana</td><td><code>GF_SERVER_ROOT_URL</code> в <code>docker-compose.yml</code></td></tr><tr><td>Адрес Telegram API</td><td><code>api_url</code> в <code>monitoring/alertmanager/alertmanager.yml</code></td></tr><tr><td>Токен Telegram-бота</td><td>Обычный текстовый файл <code>secrets/telegram_token</code> на VPS</td></tr></tbody></table></div>
-<h3 id="2-настроить-доступ-к-api">2. Настроить доступ к API<a class="docs-anchor" href="#2-настроить-доступ-к-api" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="2-настроить-доступ-к-api">2. Настроить доступ к API</h3>
 <p><strong>Основная схема: Raspberry Pi за серым IP и VPS через WireGuard.</strong></p>
 <p>На Raspberry Pi API должен быть доступен по порту <code>8000</code> из домашней сети для ESP32 и через WireGuard для Prometheus. Если API еще не запущен, его можно собрать и запустить отдельно от серверного Compose:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker build -t greenhouse-api ./greenhouse-api
+<div class="docs-code"><pre><code>docker build -t greenhouse-api ./greenhouse-api
 docker run -d \
   --name greenhouse-api \
   --restart unless-stopped \
@@ -133,22 +128,22 @@ docker run -d \
   greenhouse-api</code></pre></div>
 <p>Эти команды выполняются на Raspberry Pi. Если API уже работает, повторно запускать его не нужно. Публикация порта делает API доступным на интерфейсах Raspberry Pi; проброс порта на домашнем роутере не требуется.</p>
 <p>На VPS в <code>monitoring/prometheus/prometheus.yml</code> у задания <code>greenhouse-api</code> укажите WireGuard-адрес Raspberry Pi:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>yaml</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>  - job_name: &quot;greenhouse-api&quot;
+<div class="docs-code"><pre><code>  - job_name: &quot;greenhouse-api&quot;
     static_configs:
       - targets: [&quot;10.0.0.3:8000&quot;]</code></pre></div>
 <p>Проверьте доступность API с VPS:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>curl http://10.0.0.3:8000/health
+<div class="docs-code"><pre><code>curl http://10.0.0.3:8000/health
 curl http://10.0.0.3:8000/metrics</code></pre></div>
 <p>После запуска Prometheus убедитесь, что задание <code>greenhouse-api</code> имеет состояние <code>UP</code>. Контейнеру Prometheus также нужен доступ к адресу Raspberry Pi через WireGuard на VPS.</p>
 <p><strong>Другой вариант: API и Prometheus в общей Docker-сети одного Compose-проекта.</strong></p>
 <p>Только при таком размещении можно использовать имя сервиса:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>yaml</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>  - job_name: &quot;greenhouse-api&quot;
+<div class="docs-code"><pre><code>  - job_name: &quot;greenhouse-api&quot;
     static_configs:
       - targets: [&quot;greenhouse-api:8000&quot;]</code></pre></div>
 <p>Выбор между этими адресами зависит от расположения сервисов и сети между ними. Наличие белого IP само по себе не делает имя контейнера доступным на другом хосте.</p>
-<h3 id="3-настроить-telegram">3. Настроить Telegram<a class="docs-anchor" href="#3-настроить-telegram" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="3-настроить-telegram">3. Настроить Telegram</h3>
 <p>Создайте бота через <a href="https://t.me/BotFather" target="_blank" rel="noopener noreferrer">BotFather</a>, добавьте его в нужный чат и сохраните токен в локальном файле:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>mkdir -p secrets
+<div class="docs-code"><pre><code>mkdir -p secrets
 printf '%s' 'YOUR_TELEGRAM_BOT_TOKEN' &gt; secrets/telegram_token</code></pre></div>
 <p>Все действия этого шага выполняются на VPS. <code>secrets</code> является обычной папкой, а <code>telegram_token</code> обычным текстовым файлом, в котором записан только токен бота. Compose подключает этот файл внутрь контейнера по пути <code>/run/secrets/telegram_token</code>, откуда Alertmanager читает токен.</p>
 <p>Каталог <code>secrets/</code> исключен из Git. Файл должен быть доступен для чтения пользователю внутри контейнера Alertmanager.</p>
@@ -158,59 +153,59 @@ printf '%s' 'YOUR_TELEGRAM_BOT_TOKEN' &gt; secrets/telegram_token</code></pre></
 <li><code>message_thread_id</code>: идентификатор темы в группе с темами. Удалите этот параметр, если темы не используются.</li>
 </ul>
 <p>Alertmanager читает токен из <code>/run/secrets/telegram_token</code>. Значение <code>TELEGRAM_BOT_TOKEN</code> в <code>.env</code> этот файл не заменяет.</p>
-<h3 id="4-настроить-grafana-на-vps">4. Настроить Grafana на VPS<a class="docs-anchor" href="#4-настроить-grafana-на-vps" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="4-настроить-grafana-на-vps">4. Настроить Grafana на VPS</h3>
 <p>Grafana открывается через Nginx на VPS. Для домена проекта в <code>docker-compose.yml</code> уже указан адрес:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>yaml</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>GF_SERVER_ROOT_URL: &quot;https://growpanel.ru/grafana/&quot;</code></pre></div>
+<div class="docs-code"><pre><code>GF_SERVER_ROOT_URL: &quot;https://growpanel.ru/grafana/&quot;</code></pre></div>
 <p>Если используется другой домен, замените его здесь и в <code>web-server/nginx.conf</code>. Домен должен указывать на публичный IP VPS. Параметр <code>GF_SERVER_SERVE_FROM_SUB_PATH</code> оставьте включенным для работы через <code>/grafana/</code>.</p>
-<h3 id="5-запустить-сервисы-на-vps">5. Запустить сервисы на VPS<a class="docs-anchor" href="#5-запустить-сервисы-на-vps" aria-label="Ссылка на раздел">#</a></h3>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose up -d prometheus grafana alertmanager node_exporter cadvisor
+<h3 id="5-запустить-сервисы-на-vps">5. Запустить сервисы на VPS</h3>
+<div class="docs-code"><pre><code>docker compose up -d prometheus grafana alertmanager node_exporter cadvisor
 docker compose ps</code></pre></div>
 <p>При первом развертывании получите сертификат по инструкции в разделе HTTPS, затем запустите Nginx. Если сертификат уже существует по настроенному пути, выполните <code>docker compose up -d nginx</code>. Certbot вызывается отдельно для выдачи и продления сертификатов.</p>
 <div class="docs-table-wrap"><table><thead><tr><th>Сервис</th><th>Адрес после настройки</th></tr></thead><tbody><tr><td>API из домашней сети</td><td><code>http://192.168.0.133:8000</code></td></tr><tr><td>API с VPS через WireGuard</td><td><code>http://10.0.0.3:8000</code></td></tr><tr><td>Grafana через Nginx</td><td><code>https://growpanel.ru/grafana/</code></td></tr><tr><td>Prometheus</td><td><code>http://127.0.0.1:9090</code> на VPS</td></tr><tr><td>Alertmanager</td><td><code>http://127.0.0.1:9093</code> на VPS</td></tr><tr><td>cAdvisor</td><td><code>http://127.0.0.1:8090</code> на VPS</td></tr><tr><td>Node Exporter</td><td>Порт <code>9100</code> хоста VPS</td></tr></tbody></table></div>
 <p>Для Grafana в исходной конфигурации включен анонимный просмотр с ролью <code>Viewer</code>. Административную настройку выполняйте после входа в учетную запись администратора.</p>
-<h2 id="проверка-api">Проверка API<a class="docs-anchor" href="#проверка-api" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="проверка-api">Проверка API</h2>
 <p>Следующие команды выполняются на Raspberry Pi. При проверке с VPS замените <code>localhost:8000</code> на <code>10.0.0.3:8000</code>.</p>
 <p>Проверить доступность процесса:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>curl http://localhost:8000/health</code></pre></div>
+<div class="docs-code"><pre><code>curl http://localhost:8000/health</code></pre></div>
 <p>Ожидаемый ответ:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>json</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>{&quot;status&quot;:&quot;ok&quot;}</code></pre></div>
+<div class="docs-code"><pre><code>{&quot;status&quot;:&quot;ok&quot;}</code></pre></div>
 <p>Отправить тестовую температуру, заменив значение заголовка своим API-ключом:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>curl -X POST http://localhost:8000/api/v1/telemetry \
+<div class="docs-code"><pre><code>curl -X POST http://localhost:8000/api/v1/telemetry \
   -H 'Content-Type: application/json' \
   -H 'X-API-Key: replace-with-your-own-random-key' \
   -d '{&quot;device_id&quot;:&quot;greenhouse-esp32-01&quot;,&quot;sensor_id&quot;:&quot;ds18b20-01&quot;,&quot;temperature_c&quot;:23.5}'</code></pre></div>
 <p>При успешном приеме API возвращает <code>{&quot;status&quot;:&quot;ok&quot;}</code>. Проверить метрики:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>curl -s http://localhost:8000/metrics | grep '^greenhouse_'</code></pre></div>
+<div class="docs-code"><pre><code>curl -s http://localhost:8000/metrics | grep '^greenhouse_'</code></pre></div>
 <p>Примеры JSON, отправляемых остальными датчиками. Каждый объект передается отдельным POST-запросом с тем же API-ключом.</p>
 <p>Температура и влажность воздуха с DHT11:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>json</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>{
+<div class="docs-code"><pre><code>{
   &quot;device_id&quot;: &quot;greenhouse-esp32-01&quot;,
   &quot;sensor_id&quot;: &quot;dht11-01&quot;,
   &quot;temperature_c&quot;: 24.0,
   &quot;humidity_percent&quot;: 58.0
 }</code></pre></div>
 <p>Влажность почвы:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>json</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>{
+<div class="docs-code"><pre><code>{
   &quot;device_id&quot;: &quot;greenhouse-esp32-01&quot;,
   &quot;sensor_id&quot;: &quot;soil-moisture-01&quot;,
   &quot;humidity_percent&quot;: 42.0
 }</code></pre></div>
 <p>Относительная освещенность:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>json</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>{
+<div class="docs-code"><pre><code>{
   &quot;device_id&quot;: &quot;greenhouse-esp32-01&quot;,
   &quot;sensor_id&quot;: &quot;light=sensor-01&quot;,
   &quot;light_percent&quot;: 76.0
 }</code></pre></div>
-<h3 id="http-endpoints">HTTP endpoints<a class="docs-anchor" href="#http-endpoints" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="http-endpoints">HTTP endpoints</h3>
 <div class="docs-table-wrap"><table><thead><tr><th>Метод</th><th>Путь</th><th>Назначение</th></tr></thead><tbody><tr><td><code>POST</code></td><td><code>/api/v1/telemetry</code></td><td>Прием JSON, требуется заголовок <code>X-API-Key</code></td></tr><tr><td><code>GET</code></td><td><code>/health</code></td><td>Проверка доступности процесса</td></tr><tr><td><code>GET</code></td><td><code>/metrics</code></td><td>Экспорт метрик для Prometheus</td></tr></tbody></table></div>
 <p>Для телеметрии обязательны непустые <code>device_id</code> и <code>sensor_id</code>.</p>
 <div class="docs-table-wrap"><table><thead><tr><th>Поле измерения</th><th>Допустимый диапазон</th></tr></thead><tbody><tr><td><code>temperature_c</code></td><td>От <code>-55</code> до <code>125</code> °C</td></tr><tr><td><code>humidity_percent</code></td><td>От <code>0</code> до <code>100</code>%</td></tr><tr><td><code>light_percent</code></td><td>От <code>0</code> до <code>100</code>%</td></tr></tbody></table></div>
 <p>Поля измерений в Go представлены указателями <code>*float64</code>. Если поле отсутствует или содержит <code>null</code>, соответствующая метрика не обновляется. Числовое значение <code>0</code> обрабатывается как настоящее показание.</p>
 <p>Неправильный метод для <code>/api/v1/telemetry</code> возвращает <code>405</code>, неверный ключ <code>401</code>, некорректный JSON или значение вне допустимого диапазона <code>400</code>.</p>
-<h3 id="метрики-проекта">Метрики проекта<a class="docs-anchor" href="#метрики-проекта" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="метрики-проекта">Метрики проекта</h3>
 <div class="docs-table-wrap"><table><thead><tr><th>Метрика</th><th>Тип</th><th>Метки</th><th>Значение</th></tr></thead><tbody><tr><td><code>greenhouse_temperature_celsius</code></td><td>Gauge</td><td><code>device_id</code>, <code>sensor_id</code></td><td>Последняя принятая температура в °C</td></tr><tr><td><code>greenhouse_humidity_percent</code></td><td>Gauge</td><td><code>device_id</code>, <code>sensor_id</code></td><td>Последняя принятая влажность воздуха или почвы в %</td></tr><tr><td><code>greenhouse_light_percent</code></td><td>Gauge</td><td><code>device_id</code>, <code>sensor_id</code></td><td>Последняя принятая относительная освещенность в %</td></tr><tr><td><code>greenhouse_telemetry_received_total</code></td><td>Counter</td><td><code>device_id</code></td><td>Количество принятых сообщений устройства</td></tr></tbody></table></div>
 <p>Влажность воздуха и почвы хранится в общей метрике <code>greenhouse_humidity_percent</code>. Для их разделения используйте <code>sensor_id</code>: <code>dht11-01</code> для воздуха и <code>soil-moisture-01</code> для почвы.</p>
-<h2 id="прошивка-esp32">Прошивка ESP32<a class="docs-anchor" href="#прошивка-esp32" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="прошивка-esp32">Прошивка ESP32</h2>
 <p>Используется Arduino framework для ESP32. Для сборки нужны библиотеки <code>OneWire</code>, <code>DallasTemperature</code>, <code>DHT sensor library</code> с зависимостями и <code>ArduinoJson</code> версии 7. <code>WiFi</code>, <code>HTTPClient</code> и <code>Preferences</code> входят в Arduino core для ESP32.</p>
 <ol>
 <li>Создайте отдельный Arduino-скетч на основе <code>esp-32/preferences.example.cpp</code>.</li>
@@ -223,31 +218,31 @@ docker compose ps</code></pre></div>
 <li>Откройте Serial Monitor со скоростью <code>115200</code> и проверьте показания и HTTP-ответы.</li>
 </ol>
 <p>Оба исходника содержат <code>setup()</code> и <code>loop()</code>, поэтому их нужно загружать по очереди как отдельные скетчи. При отсутствии настроек основная прошивка выводит <code>NVS config error</code> и останавливает работу.</p>
-<h3 id="калибровка-аналоговых-датчиков">Калибровка аналоговых датчиков<a class="docs-anchor" href="#калибровка-аналоговых-датчиков" aria-label="Ссылка на раздел">#</a></h3>
+<h3 id="калибровка-аналоговых-датчиков">Калибровка аналоговых датчиков</h3>
 <p>Для влажности почвы в коде заданы <code>SOIL_DRY = 3400</code> и <code>SOIL_WET = 1140</code>:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>text</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>влажность (%) = (SOIL_DRY - raw) * 100 / (SOIL_DRY - SOIL_WET)</code></pre></div>
+<div class="docs-code"><pre><code>влажность (%) = (SOIL_DRY - raw) * 100 / (SOIL_DRY - SOIL_WET)</code></pre></div>
 <p>Для освещенности заданы <code>LIGHT_DARK = 4095</code> и <code>LIGHT_BRIGHT = 0</code>:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>text</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>освещенность (%) = (LIGHT_DARK - raw) * 100 / (LIGHT_DARK - LIGHT_BRIGHT)</code></pre></div>
+<div class="docs-code"><pre><code>освещенность (%) = (LIGHT_DARK - raw) * 100 / (LIGHT_DARK - LIGHT_BRIGHT)</code></pre></div>
 <p>Результаты ограничиваются диапазоном от 0 до 100%. Подставьте значения, полученные на своих датчиках. Освещенность здесь относительная, в люксах она не измеряется.</p>
-<h2 id="дашборд-grafana">Дашборд Grafana<a class="docs-anchor" href="#дашборд-grafana" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="дашборд-grafana">Дашборд Grafana</h2>
 <p>После запуска добавьте в Grafana источник данных Prometheus с адресом <code>http://prometheus:9090</code>. Здесь имя <code>prometheus</code> подходит, поскольку Grafana и Prometheus работают в общей Docker-сети на VPS.</p>
 <p>Пример запроса для графика температуры:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>promql</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>greenhouse_temperature_celsius{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;ds18b20-01&quot;}</code></pre></div>
+<div class="docs-code"><pre><code>greenhouse_temperature_celsius{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;ds18b20-01&quot;}</code></pre></div>
 <p>Влажность воздуха:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>promql</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>greenhouse_humidity_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;dht11-01&quot;}</code></pre></div>
+<div class="docs-code"><pre><code>greenhouse_humidity_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;dht11-01&quot;}</code></pre></div>
 <p>Влажность почвы:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>promql</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>greenhouse_humidity_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;soil-moisture-01&quot;}</code></pre></div>
+<div class="docs-code"><pre><code>greenhouse_humidity_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;soil-moisture-01&quot;}</code></pre></div>
 <p>Относительная освещенность:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>promql</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>greenhouse_light_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;light=sensor-01&quot;}</code></pre></div>
+<div class="docs-code"><pre><code>greenhouse_light_percent{device_id=&quot;greenhouse-esp32-01&quot;,sensor_id=&quot;light=sensor-01&quot;}</code></pre></div>
 <p>Пример запроса для скорости поступления сообщений:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>promql</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>rate(greenhouse_telemetry_received_total[5m])</code></pre></div>
+<div class="docs-code"><pre><code>rate(greenhouse_telemetry_received_total[5m])</code></pre></div>
 <p>В репозитории нет экспорта дашборда и provisioning-конфигурации Grafana. Создайте дашборд вручную, затем замените путь <code>/grafana/d/adv6z8s/metriki?kiosk</code> в <code>web-server/html/index.html</code> на путь своего дашборда.</p>
-<h2 id="оповещения">Оповещения<a class="docs-anchor" href="#оповещения" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="оповещения">Оповещения</h2>
 <p>Правило <code>HighTemperature</code> находится в <code>monitoring/prometheus/rules.yml</code> и срабатывает, когда температура датчика <code>ds18b20-01</code> на устройстве <code>greenhouse-esp32-01</code> выше <code>25</code> °C в течение одной минуты.</p>
 <p>Алерт получает метку <code>severity: warning</code> и передается в Telegram. Alertmanager группирует уведомления по <code>instance</code>, повторяет активное уведомление с настроенным интервалом <code>1m</code> и отправляет сообщение о разрешении алерта. Текст сообщения задается в <code>monitoring/alertmanager/templates/telegram.tmpl</code>.</p>
 <p>Чтобы изменить порог, длительность или отслеживаемый датчик, отредактируйте правило и перезапустите Prometheus на VPS:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose restart prometheus</code></pre></div>
-<h2 id="веб-страница-и-https">Веб-страница и HTTPS<a class="docs-anchor" href="#веб-страница-и-https" aria-label="Ссылка на раздел">#</a></h2>
+<div class="docs-code"><pre><code>docker compose restart prometheus</code></pre></div>
+<h2 id="веб-страница-и-https">Веб-страница и HTTPS</h2>
 <p>Этот раздел выполняется на VPS. Домен направляется на публичный IP VPS, где должны быть доступны TCP-порты <code>80</code> и <code>443</code>. Домашний Raspberry Pi остается за серым IP и доступен VPS через WireGuard. В примерах ниже замените <code>example.ru</code> своим доменом; в текущем проекте используется <code>growpanel.ru</code>.</p>
 <ol>
 <li>В <code>web-server/nginx.conf</code> замените <code>growpanel.ru</code> и <code>www.growpanel.ru</code> на свои имена. Обновите пути к сертификатам на <code>/etc/letsencrypt/live/example.ru/fullchain.pem</code> и <code>/etc/letsencrypt/live/example.ru/privkey.pem</code>.</li>
@@ -255,7 +250,7 @@ docker compose ps</code></pre></div>
 <li>При необходимости измените домен в подвале <code>web-server/html/index.html</code> и укажите путь своего дашборда.</li>
 <li>Пока Nginx остановлен и порт <code>80</code> свободен, получите сертификат:</li>
 </ol>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose run --rm -p 80:80 certbot certonly \
+<div class="docs-code"><pre><code>docker compose run --rm -p 80:80 certbot certonly \
   --standalone \
   --cert-name example.ru \
   -d example.ru \
@@ -265,24 +260,24 @@ docker compose ps</code></pre></div>
   --no-eff-email</code></pre></div>
 <p>Оба доменных имени должны указывать на VPS. Если <code>www</code> не используется, удалите его из команды и конфигурации Nginx.</p>
 <p>Запустите Nginx и примените измененный адрес Grafana:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose up -d grafana nginx</code></pre></div>
+<div class="docs-code"><pre><code>docker compose up -d grafana nginx</code></pre></div>
 <p>Страница будет доступна по адресу <code>https://example.ru</code>, Grafana по адресу <code>https://example.ru/grafana/</code>. HTTP-запросы перенаправляются на HTTPS. Изображение с подписью видеонаблюдения на странице является статическим файлом, видеопоток в проекте не подключен.</p>
 <p>Для продления сертификата, впервые выданного через <code>--standalone</code>, используйте webroot, который уже обслуживает Nginx:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose run --rm certbot renew \
+<div class="docs-code"><pre><code>docker compose run --rm certbot renew \
   --cert-name example.ru \
   --webroot -w /var/www/certbot
 docker compose exec nginx nginx -s reload</code></pre></div>
 <p>Автоматическое продление в Compose не настроено. Команды продления и перезагрузки Nginx нужно запускать по расписанию на VPS.</p>
-<h2 id="обслуживание">Обслуживание<a class="docs-anchor" href="#обслуживание" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="обслуживание">Обслуживание</h2>
 <p>На VPS посмотреть состояние и логи мониторинга:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose ps
+<div class="docs-code"><pre><code>docker compose ps
 docker compose logs -f prometheus alertmanager</code></pre></div>
 <p>Применить изменения конфигурации Alertmanager на VPS:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose restart alertmanager</code></pre></div>
+<div class="docs-code"><pre><code>docker compose restart alertmanager</code></pre></div>
 <p>На Raspberry Pi посмотреть логи API, если он запущен отдельным контейнером по инструкции выше:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker logs -f greenhouse-api</code></pre></div>
+<div class="docs-code"><pre><code>docker logs -f greenhouse-api</code></pre></div>
 <p>После изменения Go-кода пересоберите образ на Raspberry Pi и пересоздайте контейнер:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker build -t greenhouse-api ./greenhouse-api
+<div class="docs-code"><pre><code>docker build -t greenhouse-api ./greenhouse-api
 docker stop greenhouse-api
 docker rm greenhouse-api
 docker run -d \
@@ -292,35 +287,21 @@ docker run -d \
   -p 8000:8000 \
   greenhouse-api</code></pre></div>
 <p>Остановить серверные сервисы на VPS с сохранением данных:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker compose down</code></pre></div>
+<div class="docs-code"><pre><code>docker compose down</code></pre></div>
 <p>Остановить отдельно запущенный API на Raspberry Pi:</p>
-<div class="docs-code"><div class="docs-code-bar"><span>bash</span><button class="docs-copy" type="button" aria-label="Скопировать код">Копировать</button></div><pre><code>docker stop greenhouse-api</code></pre></div>
+<div class="docs-code"><pre><code>docker stop greenhouse-api</code></pre></div>
 <p>Данные Prometheus, Grafana и Alertmanager находятся в именованных Docker volumes на VPS. Сертификаты сохраняются в <code>certbot/conf/</code>. Добавление <code>-v</code> к команде <code>down</code> удаляет именованные volumes и хранящиеся в них данные.</p>
-<h2 id="ограничения-текущей-реализации">Ограничения текущей реализации<a class="docs-anchor" href="#ограничения-текущей-реализации" aria-label="Ссылка на раздел">#</a></h2>
+<h2 id="ограничения-текущей-реализации">Ограничения текущей реализации</h2>
 <ul>
 <li>Отсутствие новых показаний не отслеживается отдельным правилом. Последняя температура остается в API до перезапуска, поэтому действующий алерт может сохраняться после отключения датчика.</li>
 <li>Через публичный Nginx доступны веб-страница и Grafana. Телеметрия поступает в домашний API по LAN, а сбор метрик с VPS идет через WireGuard.</li>
 <li><code>/health</code> проверяет доступность API-процесса, но не состояние датчиков и остальных компонентов.</li>
 <li>Настройки домена, адреса сервера и Telegram содержат значения конкретного развертывания и требуют замены перед запуском.</li>
 </ul>
-        </article>
-        <div class="docs-end">Конец документации · <a href="#top">Вернуться к началу ↑</a></div>
-      </main>
-    </div>
-  </div>
-  <footer>growpanel.ru · <a href="/">Главная</a> · <a href="https://github.com/ExIntegra/smart-greenhouse" target="_blank" rel="noopener noreferrer">GitHub</a></footer>
-  <script>
-    document.querySelectorAll('.docs-copy').forEach(button => {
-      button.addEventListener('click', async () => {
-        const code = button.closest('.docs-code').querySelector('code').textContent;
-        try {
-          await navigator.clipboard.writeText(code);
-          const previous = button.textContent;
-          button.textContent = 'Скопировано ✓';
-          setTimeout(() => { button.textContent = previous; }, 1600);
-        } catch (_) { button.textContent = 'Не удалось скопировать'; }
-      });
-    });
-  </script>
+            </article>
+        </section>
+    </main>
+
+    <footer>growpanel.ru</footer>
 </body>
 </html>
